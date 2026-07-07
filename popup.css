@@ -1,0 +1,310 @@
+* { box-sizing: border-box; }
+
+body {
+  width: 100%;
+  min-width: 320px;
+  max-width: 480px;
+  margin: 0 auto;
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  background: #FAF9F6;
+  color: #1F2421;
+  font-size: 13px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 10px;
+}
+
+.mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #0F6E56;
+  flex-shrink: 0;
+}
+
+header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.setup-banner {
+  background: #FFF3E0;
+  border-bottom: 1px solid #F0DCC0;
+  padding: 8px 16px;
+  font-size: 11.5px;
+  color: #7A5012;
+  line-height: 1.5;
+}
+.setup-banner a { color: #0F6E56; font-weight: 600; text-decoration: none; }
+.setup-banner a:hover { text-decoration: underline; }
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 12px;
+  border-bottom: 1px solid #E4E1D8;
+}
+
+.tab-btn {
+  border: none;
+  background: none;
+  padding: 8px 2px 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #6B7B6E;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  flex: 1;
+  text-align: center;
+}
+
+.tab-btn.active {
+  color: #0F6E56;
+  border-bottom-color: #0F6E56;
+}
+
+.tab-panel { display: none; padding: 14px 16px 18px; }
+.tab-panel.active { display: block; }
+
+.hint {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #6B7B6E;
+  line-height: 1.5;
+}
+
+.divider {
+  text-align: center;
+  font-size: 11px;
+  color: #B4B2A9;
+  margin: 12px 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: #E4E1D8;
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6B7B6E;
+  margin: 10px 0 4px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+input[type="text"], input[type="number"], textarea {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid #D9D5C9;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-family: inherit;
+  background: #fff;
+  color: #1F2421;
+}
+
+textarea { resize: vertical; }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #1F2421;
+}
+
+button.primary, button.secondary {
+  width: 100%;
+  padding: 9px 0;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  margin-top: 4px;
+}
+
+button.primary { background: #0F6E56; color: #fff; }
+button.primary:hover { background: #0C5946; }
+
+button.secondary { background: #fff; color: #1F2421; border: 1px solid #D9D5C9; }
+button.secondary:disabled { color: #B4B2A9; cursor: not-allowed; }
+
+.status {
+  font-size: 11.5px;
+  color: #6B7B6E;
+  min-height: 14px;
+  margin: 6px 0 0;
+}
+
+.status.error { color: #C0392B; }
+.status.ok { color: #0F6E56; }
+
+.score-tag {
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  vertical-align: middle;
+  color: #fff;
+}
+.score-tag.score-high { background: #0F6E56; }
+.score-tag.score-mid { background: #B7791F; }
+.score-tag.score-low { background: #C0392B; }
+
+.age-tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: #6B7B6E;
+}
+
+.job-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.status-select {
+  font-size: 11px;
+  border-radius: 5px;
+  padding: 2px 4px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* When no status set — show as subtle ghost element */
+.status-select.status-unset {
+  border: 1px dashed #D9D5C9;
+  background: transparent;
+  color: #B4B2A9;
+  opacity: 0.6;
+}
+.status-select.status-unset:hover,
+.job-row:hover .status-select.status-unset {
+  opacity: 1;
+  color: #6B7B6E;
+  border-color: #B4B2A9;
+}
+
+/* When status is set — show clearly with color */
+.status-select.status-set {
+  border: 1px solid #D9D5C9;
+  background: #fff;
+  color: #1F2421;
+}
+.status-select.status-applied { background: #E8F5E9; border-color: #A5D6A7; color: #2E7D32; }
+.status-select.status-interviewing { background: #E3F2FD; border-color: #90CAF9; color: #1565C0; }
+.status-select.status-rejected { background: #FFEBEE; border-color: #EF9A9A; color: #C62828; }
+.status-select.status-offer { background: #FFF8E1; border-color: #FFE082; color: #F57F17; }
+
+.followup-banner {
+  background: #FFF3E0;
+  border: 1px solid #F0DCC0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  color: #7A5012;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.followup-banner .mini-btn {
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #D9C49A;
+  background: #fff;
+  color: #7A5012;
+  cursor: pointer;
+  margin: 2px 3px 0 0;
+}
+
+.tracker-summary {
+  font-size: 12px;
+  color: #1F2421;
+  background: #F0EEE6;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 0 0 10px;
+}
+
+#trackerList { max-height: 320px; overflow-y: auto; }
+
+#results { margin-top: 10px; max-height: 220px; overflow-y: auto; }
+
+.job-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid #EFEDE4;
+}
+
+.job-row .job-title { font-weight: 500; font-size: 12.5px; }
+.source-tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: #6B7B6E;
+  background: #F0EEE6;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.job-row .job-meta { font-size: 11.5px; color: #6B7B6E; margin-top: 2px; }
+.job-row .use-jd { font-size: 11px; color: #0F6E56; cursor: pointer; margin-top: 4px; display: inline-block; }
+
+#matchResult { margin-top: 10px; }
+#matchResult h3 { font-size: 13px; margin: 12px 0 4px; }
+#matchResult ul { margin: 4px 0 0; padding-left: 18px; font-size: 12px; }
+#matchResult .score { font-size: 22px; font-weight: 600; color: #0F6E56; }
+#matchResult textarea { margin-top: 4px; height: 120px; }
+
+.draft-output { margin-top: 6px; }
+.draft-output textarea {
+  width: 100%;
+  height: 70px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.draft-output button.secondary {
+  width: auto;
+  padding: 4px 10px;
+  margin-top: 0;
+  font-size: 11px;
+}
+
+footer {
+  padding: 10px 16px 14px;
+  border-top: 1px solid #E4E1D8;
+}
+
+footer a {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #0F6E56;
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }

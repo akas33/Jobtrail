@@ -1,0 +1,121 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #FAF9F6;
+  color: #1F2421;
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+}
+
+main { max-width: 480px; margin: 0 auto; padding: 36px 20px 60px; }
+
+h1 { font-size: 19px; font-weight: 600; margin: 0 0 6px; }
+
+.hint { font-size: 13px; color: #6B7B6E; line-height: 1.6; margin: 0 0 24px; }
+
+.template-link {
+  display: inline-block;
+  background: #FFF3E0;
+  border: 1px solid #F0DCC0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #7A5012;
+  text-decoration: none;
+}
+.template-link:hover { text-decoration: underline; }
+
+.fallback-details {
+  margin: 10px 0 14px;
+  font-size: 12.5px;
+}
+.fallback-details summary {
+  cursor: pointer;
+  color: #0F6E56;
+  font-weight: 500;
+}
+.fallback-details summary:hover { text-decoration: underline; }
+
+.steps {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #1F2421;
+}
+.steps li { margin-bottom: 4px; }
+
+.placeholder-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+}
+.placeholder-table td {
+  padding: 5px 8px;
+  border: 1px solid #E4E1D8;
+}
+.placeholder-table td:first-child { color: #6B7B6E; width: 40%; }
+.placeholder-table code {
+  background: #F0EEE6;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #D9D5C9;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-family: inherit;
+  background: #fff;
+  color: #1F2421;
+  resize: vertical;
+}
+
+section {
+  border-top: 2px solid #0F6E56;
+  padding: 16px 0 4px;
+  margin-bottom: 18px;
+}
+
+h2 { font-size: 14px; font-weight: 600; margin: 0 0 10px; }
+
+.field-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #6B7B6E;
+  margin: 12px 0 4px;
+}
+
+input, select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #D9D5C9;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fff;
+  color: #1F2421;
+}
+
+button.primary, button.secondary {
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  margin-top: 14px;
+}
+
+button.primary { background: #0F6E56; color: #fff; }
+button.secondary { background: #fff; color: #1F2421; border: 1px solid #D9D5C9; margin-top: 10px; }
+
+.status { font-size: 12px; color: #6B7B6E; min-height: 16px; }
+.status.error { color: #C0392B; }
+.status.ok { color: #0F6E56; }

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JobTrail — Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main>
+    <h1>JobTrail settings</h1>
+    <p class="hint">Everything below stays on your machine — there's no server. Keys are stored in your browser's extension storage only.</p>
+
+    <section>
+      <h2>AI provider</h2>
+      <label class="field-label">Which provider to use for resume matching</label>
+      <select id="provider">
+        <option value="gemini">Google Gemini (free tier)</option>
+        <option value="groq">Groq (free tier, hosts Llama models)</option>
+      </select>
+
+      <label class="field-label">Gemini API key</label>
+      <input id="geminiKey" type="password" placeholder="Paste your free key from aistudio.google.com" />
+      <label class="field-label">Gemini model</label>
+      <input id="geminiModel" type="text" placeholder="gemini-2.5-flash" />
+
+      <label class="field-label">Groq API key</label>
+      <input id="groqKey" type="password" placeholder="Paste your free key from console.groq.com" />
+      <label class="field-label">Groq model</label>
+      <input id="groqModel" type="text" placeholder="llama-3.3-70b-versatile" />
+
+      <label class="checkbox">
+        <input id="useFallback" type="checkbox" />
+        If my main provider hits its quota, automatically try the other one
+      </label>
+      <p class="hint" style="margin:6px 0 0;">Needs a key saved for both Gemini and Groq above. Stretches your free daily limit by combining both providers' separate quotas — Groq's free tier is currently far more generous than Gemini's, so it's worth adding even just as backup.</p>
+
+      <button id="testKeyBtn" class="secondary">Test key</button>
+      <p id="testKeyStatus" class="status"></p>
+    </section>
+
+    <section>
+      <h2>Job search API</h2>
+      <p class="hint" style="margin:0 0 8px;">Steadier than scraping Google's results panel — free tiers, no ToS gray area.</p>
+      <label class="field-label">Provider</label>
+      <select id="jobApiProvider">
+        <option value="adzuna">Adzuna (free, no extra account needed beyond signup)</option>
+        <option value="jsearch">JSearch via RapidAPI (free tier)</option>
+      </select>
+
+      <label class="field-label">Adzuna app ID</label>
+      <input id="adzunaAppId" type="text" placeholder="From developer.adzuna.com" />
+      <label class="field-label">Adzuna app key</label>
+      <input id="adzunaAppKey" type="password" placeholder="From developer.adzuna.com" />
+
+      <label class="field-label">JSearch (RapidAPI) key</label>
+      <input id="jsearchKey" type="password" placeholder="From rapidapi.com/.../jsearch" />
+
+      <button id="testJobApiBtn" class="secondary">Test connection</button>
+      <p id="testJobApiStatus" class="status"></p>
+    </section>
+
+    <section>
+      <h2>Google Form (recommended — no Cloud Console)</h2>
+      <p class="hint" style="margin:0 0 8px;">Works for anyone — no developer console, no OAuth, no email whitelist.</p>
+
+      <p>
+        <a href="https://docs.google.com/forms/d/1ASLfGYc8z-vTg0ZSRgejBKkb4wDMOQrBJb5UFnLgWOw/copy" target="_blank" class="template-link">
+          Use the JobTrail template form — click "Make a copy"
+        </a>
+      </p>
+
+      <ol class="steps">
+        <li>Click the template link above — it'll prompt "Make a copy," which drops a private copy into <strong>your own</strong> Google Drive, independent of the original</li>
+        <li>In your copy, click <strong>Responses</strong> → the green Sheets icon, to create your own linked spreadsheet</li>
+        <li>Click the <strong>⋮</strong> menu → <strong>Get pre-filled link</strong> (some accounts show this as <strong>"Pre-fill form"</strong> instead — same feature)</li>
+        <li>Type the exact placeholder text below into each question, then <strong>Get link</strong> → <strong>Copy link</strong></li>
+      </ol>
+
+      <table class="placeholder-table">
+        <tr><td><strong>Job ID</strong> <em>(linking key)</em></td><td><code>JC_JOBID</code></td></tr>
+        <tr><td><strong>Title</strong></td><td><code>JC_TITLE</code></td></tr>
+        <tr><td><strong>Company</strong></td><td><code>JC_COMPANY</code></td></tr>
+        <tr><td><strong>Location</strong></td><td><code>JC_LOCATION</code></td></tr>
+        <tr><td><strong>Salary</strong></td><td><code>JC_SALARY</code></td></tr>
+        <tr><td><strong>Source</strong></td><td><code>JC_SOURCE</code></td></tr>
+        <tr><td><strong>URL</strong></td><td><code>JC_URL</code></td></tr>
+        <tr><td><strong>Fit Score</strong> <em>(optional)</em></td><td><code>JC_FITSCORE</code></td></tr>
+        <tr><td><strong>Matching Skills</strong> <em>(Paragraph, optional)</em></td><td><code>JC_MATCHING</code></td></tr>
+        <tr><td><strong>Missing Skills</strong> <em>(Paragraph, optional)</em></td><td><code>JC_MISSING</code></td></tr>
+        <tr><td><strong>Status</strong> <em>(optional)</em></td><td><code>JC_STATUS</code></td></tr>
+      </table>
+      <p class="hint" style="margin:4px 0 10px;">Minimum needed: Job ID + Title + URL. All other questions are optional — missing ones are silently skipped. Job ID is the key to VLOOKUP between both sheets.</p>
+
+      <details class="fallback-details">
+        <summary>Don't want to rely on a template you don't control? Build your own form instead</summary>
+        <ol class="steps" style="margin-top:10px;">
+          <li>Go to <a href="https://forms.google.com" target="_blank">forms.google.com</a> and create a blank form</li>
+          <li>Add 6 "Short answer" questions, in any order: <strong>Title, Company, Location, Salary, Source, URL</strong></li>
+          <li>Important: leave every question <strong>not required</strong> (the toggle in the bottom-right of each question should be off) — a required-but-empty field can silently block a submission</li>
+          <li>Click the <strong>Responses</strong> tab, then the green Sheets icon, to create a linked spreadsheet</li>
+          <li>Click the <strong>⋮</strong> menu → <strong>Get pre-filled link</strong>, then continue with the placeholder table above</li>
+        </ol>
+      </details>
+
+      <label class="field-label">Paste the pre-filled link here</label>
+      <textarea id="formPrefillLink" rows="3" placeholder="https://docs.google.com/forms/d/e/.../viewform?usp=pp_url&entry.123=JC_TITLE&entry.456=JC_COMPANY..."></textarea>
+      <button id="parseFormBtn" class="secondary">Save Google Form link</button>
+      <p id="formStatus" class="status"></p>
+    </section>
+
+    <section>
+      <h2>Analysis Form (2nd form — resume suggestions + cover letter)</h2>
+      <p class="hint" style="margin:0 0 8px;">This form captures the deep analysis. Linked to its own sheet, VLOOKUP on Job ID to connect with the Jobs sheet. Auto-submits whenever you do a full per-job score.</p>
+
+      <!-- maintainer TODO: replace the href below with your own analysis form's /copy link -->
+      <p>
+        <a href="https://docs.google.com/forms/d/1nOuNAj39aBUPU-sxBoOjY3g6GOlA9B5iOo1rImIG6NM/copy" target="_blank" class="template-link">
+          Use the JobTrail Analysis Form template — click "Make a copy"
+        </a>
+      </p>
+
+      <ol class="steps">
+        <li>Click the template link above — "Make a copy" puts it in <strong>your own</strong> Drive</li>
+        <li>In your copy, click <strong>Responses</strong> → green Sheets icon to link your own spreadsheet</li>
+        <li>Click <strong>⋮</strong> → <strong>Pre-fill form</strong>, type the placeholders below, <strong>Get link</strong> → <strong>Copy link</strong></li>
+      </ol>
+
+      <table class="placeholder-table">
+        <tr><td><strong>Job ID</strong> <em>(Short answer — linking key)</em></td><td><code>JC_JOBID</code></td></tr>
+        <tr><td><strong>Resume Suggestions</strong> <em>(Paragraph)</em></td><td><code>JC_SUGGESTIONS</code></td></tr>
+        <tr><td><strong>Cover Letter</strong> <em>(Paragraph)</em></td><td><code>JC_COVERLETTER</code></td></tr>
+      </table>
+
+      <details class="fallback-details">
+        <summary>Build the analysis form from scratch instead</summary>
+        <ol class="steps" style="margin-top:10px;">
+          <li>Go to <a href="https://forms.google.com" target="_blank">forms.google.com</a>, create a blank form</li>
+          <li>Add 3 questions: Job ID (Short answer), Resume Suggestions (Paragraph), Cover Letter (Paragraph)</li>
+          <li>Leave all <strong>not required</strong></li>
+          <li>Link a spreadsheet via Responses → Sheets icon</li>
+          <li>Continue with the pre-fill steps above</li>
+        </ol>
+      </details>
+
+      <label class="field-label">Paste the analysis form pre-filled link here</label>
+      <textarea id="analysisFormPrefillLink" rows="3" placeholder="https://docs.google.com/forms/d/e/.../viewform?usp=pp_url&entry.111=JC_JOBID&entry.222=JC_SUGGESTIONS..."></textarea>
+      <button id="parseAnalysisFormBtn" class="secondary">Save Analysis Form link</button>
+      <p id="analysisFormStatus" class="status"></p>
+    </section>
+
+    <section>
+      <h2>Google Sheet via Cloud Console (for you, or testers you whitelist)</h2>
+      <label class="field-label">Spreadsheet ID (from the sheet's URL)</label>
+      <input id="spreadsheetId" type="text" placeholder="1aBcD...xyz" />
+      <label class="field-label">Sheet/tab name</label>
+      <input id="sheetName" type="text" placeholder="Sheet1" />
+      <button id="connectBtn" class="secondary">Connect Google account</button>
+      <p id="connectStatus" class="status"></p>
+    </section>
+
+    <section>
+      <h2>History</h2>
+      <p class="hint" style="margin:0 0 8px;">Job URLs you've already exported sync via your Chrome profile, so any device signed into the same profile will hide them too — no server involved, just Chrome's own sync.</p>
+      <button id="clearHistoryBtn" class="secondary">Clear exported job history</button>
+      <p id="clearHistoryStatus" class="status"></p>
+    </section>
+
+    <button id="saveBtn" class="primary">Save settings</button>
+    <p id="saveStatus" class="status"></p>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

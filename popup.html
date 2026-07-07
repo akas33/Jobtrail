@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JobTrail</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <span class="mark"></span>
+    <h1>JobTrail</h1>
+  </header>
+
+  <div id="setupBanner" class="setup-banner" style="display:none;">
+    No API key set yet — <a href="options.html" target="_blank">add a free one here</a> to use resume matching and outreach drafts.
+  </div>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="scan">Find jobs</button>
+    <button class="tab-btn" data-tab="match">Resume match</button>
+    <button class="tab-btn" data-tab="contacts">Find contacts</button>
+    <button class="tab-btn" data-tab="tracker">Tracker</button>
+  </nav>
+
+  <section id="tab-scan" class="tab-panel active">
+    <p class="hint">Open a LinkedIn or Naukri job search page, or search "&lt;role&gt; jobs" on Google — then scan it.</p>
+
+    <div class="filters">
+      <input id="titleKeyword" type="text" placeholder="Job title contains… (e.g. Program Manager)" />
+      <input id="requiredKeywords" type="text" placeholder="Must contain all of… (e.g. product, agile)" />
+      <input id="excludeKeywords" type="text" placeholder="Exclude if contains… (e.g. cloud, technical, senior)" />
+      <input id="city" type="text" placeholder="City" />
+      <input id="minSalary" type="number" placeholder="Min salary (optional)" />
+      <input id="maxAgeDays" type="number" placeholder="Hide listings older than N days (optional)" />
+      <label class="checkbox">
+        <input id="includeNoSalary" type="checkbox" checked />
+        Still show jobs with no salary listed
+      </label>
+      <label class="checkbox">
+        <input id="hideSeen" type="checkbox" checked />
+        Hide jobs I've already exported
+      </label>
+    </div>
+
+    <button id="scanBtn" class="primary">Scan this page</button>
+    <p id="scanStatus" class="status"></p>
+
+    <div class="divider">or search a free job API (no scraping)</div>
+
+    <div class="filters">
+      <input id="apiKeywords" type="text" placeholder="Role / keywords (e.g. data analyst)" />
+      <input id="apiLocation" type="text" placeholder="Location (e.g. Pune)" />
+      <input id="apiCountry" type="text" placeholder="Country code (e.g. in, us, gb)" value="in" />
+    </div>
+    <button id="apiSearchBtn" class="primary">Search jobs via API</button>
+    <p id="apiSearchStatus" class="status"></p>
+
+    <div id="results"></div>
+
+    <button id="scoreAllBtn" class="secondary" disabled>Score all against my resume, sort by fit</button>
+    <p id="scoreAllStatus" class="status"></p>
+
+    <button id="csvBtn" class="secondary" disabled>Download Jobs CSV</button>
+    <button id="analysisBtn" class="secondary" disabled>Download Full Analysis CSV</button>
+    <button id="formBtn" class="secondary" disabled>Send to Google Form</button>
+    <button id="pushBtn" class="secondary" disabled>Push selected to Google Sheet (needs Cloud Console setup — see Settings)</button>
+    <p id="pushStatus" class="status"></p>
+  </section>
+
+  <section id="tab-match" class="tab-panel">
+    <label class="field-label">Your resume</label>
+    <input id="resumeFile" type="file" accept=".pdf,.docx" />
+    <p id="resumeFileStatus" class="status"></p>
+    <textarea id="resumeText" rows="5" placeholder="…or paste your resume text here"></textarea>
+
+    <label class="field-label">Job description</label>
+    <textarea id="jdText" rows="5" placeholder="Paste the job description here, or click 'Use this job' on a scanned result…"></textarea>
+
+    <button id="matchBtn" class="primary">Analyze match</button>
+    <p id="matchStatus" class="status"></p>
+
+    <div id="matchResult"></div>
+  </section>
+
+  <section id="tab-contacts" class="tab-panel">
+    <div id="followUpsContainer"></div>
+
+    <p class="hint">On LinkedIn, search a role + company and select the <strong>People</strong> tab — then scan. Fill in the box below before drafting messages — it tells the AI what role <em>you</em> are looking for, so messages say "exploring PM roles" not something from your resume.</p>
+
+    <input id="contactRole" type="text" placeholder="What role are YOU exploring? e.g. Program Manager, Product Manager" />
+    <button id="scanContactsBtn" class="primary">Scan this page for contacts</button>
+    <p id="contactsStatus" class="status"></p>
+
+    <div id="contactResults"></div>
+  </section>
+
+  <section id="tab-tracker" class="tab-panel">
+    <p class="hint">Jobs you've set a status on (from the "Find jobs" tab, or here) show up below. This is the one place to actually see whether anything's working — not just a list.</p>
+    <p id="trackerSummary" class="tracker-summary"></p>
+    <div id="trackerList"></div>
+  </section>
+
+  <footer>
+    <a href="options.html" target="_blank">Settings &amp; API keys</a>
+  </footer>
+
+  <script src="vendor/mammoth.browser.min.js"></script>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
